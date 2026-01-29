@@ -1,0 +1,339 @@
+:root {
+    --primary-color: #007AFF;
+    --success-color: #34C759;
+    --bg-color: #F2F2F7;
+    --card-bg: #FFFFFF;
+    --text-color: #1C1C1E;
+    --secondary-text: #8E8E93;
+    --border-radius: 20px;
+    --font-family: 'Noto Sans JP', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+header {
+    text-align: center;
+}
+
+.header-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.icon-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.icon-button:hover {
+    background: #f0f0f0;
+}
+
+.date-display {
+    font-size: 1.2rem;
+    color: var(--secondary-text);
+    font-weight: 400;
+}
+
+.record-section {
+    display: flex;
+    justify-content: center;
+}
+
+.main-button {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 300px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 122, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.main-button:active {
+    transform: scale(0.9);
+}
+
+.main-button.taken {
+    background-color: var(--success-color);
+    box-shadow: 0 10px 20px rgba(52, 199, 89, 0.3);
+    font-size: 1.5rem;
+    cursor: default;
+}
+
+.history-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.secondary-button {
+    background: none;
+    border: 2px solid var(--secondary-text);
+    color: var(--secondary-text);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.secondary-button:hover {
+    background-color: rgba(142, 142, 147, 0.1);
+}
+
+.history-list {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.history-list.hidden {
+    display: none;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #E5E5EA;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.status-taken {
+    color: var(--success-color);
+    font-weight: 700;
+}
+
+/* モーダル表示 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.nav-button,
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    color: var(--secondary-text);
+}
+
+.close-button {
+    font-size: 1.5rem;
+}
+
+.calendar-grid-header,
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    gap: 5px;
+}
+
+.calendar-grid {
+    grid-template-rows: repeat(6, 1fr);
+    min-height: 280px;
+    /* 6行分の高さを確保 */
+}
+
+.calendar-grid-header div {
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 5px 0;
+    color: var(--secondary-text);
+}
+
+.calendar-day {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    position: relative;
+}
+
+.calendar-day.today {
+    background-color: rgba(0, 122, 255, 0.1);
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 2px;
+}
+
+.taken-dot {
+    background-color: var(--success-color);
+}
+
+.calendar-footer {
+    border-top: 1px solid #E5E5EA;
+    margin-top: 15px;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.calendar-legend {
+    font-size: 0.8rem;
+    display: flex;
+    gap: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.admin-controls {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-button {
+    background-color: var(--secondary-text);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.admin-button.active {
+    background-color: #FF9500;
+}
+
+/* 管理モード時のセルのスタイル */
+.calendar-day.editable {
+    cursor: pointer;
+}
+
+.calendar-day.editable:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.calendar-day.editable:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--secondary-text);
+    margin-top: auto;
+    padding-bottom: 20px;
+}
+
+/* スマホ対応 */
+@media (max-width: 480px) {
+    .main-button {
+        max-width: 80%;
+    }
+}
