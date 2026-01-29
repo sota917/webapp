@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web Apps | アプリ管理ツール</title>
+    <meta name="description" content="個人のWebアプリ開発を管理・閲覧するためのローカル保存ツール。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- ヘッダー -->
+        <header class="main-header">
+            <div class="header-content">
+                <h1 class="logo">My Web Apps</h1>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="アプリ名やタグで検索..." autocomplete="off">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <button id="themeToggle" class="theme-toggle-btn" title="テーマを切り替え">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                <button id="addBtn" class="primary-btn">
+                    <span class="btn-icon">+</span> アプリを追加
+                </button>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="content-area">
+            <div class="layout-container">
+                <section class="app-main">
+                    <div id="appGrid" class="app-grid">
+                        <!-- JavaScriptでカードが動的に生成されます -->
+                    </div>
+
+                    <!-- 空の状態の表示 -->
+                    <div id="emptyState" class="empty-state hidden">
+                        <div class="empty-illustration">📁</div>
+                        <p>登録されたアプリがありません。<br>右上のボタンから追加してください。</p>
+                    </div>
+                </section>
+
+                <aside class="app-sidebar">
+                    <div class="sidebar-card calendar-wrapper">
+                        <div class="calendar-header">
+                            <button id="prevMonth" class="cal-btn">❮</button>
+                            <h3 id="calendarMonth">2026年 1月</h3>
+                            <button id="nextMonth" class="cal-btn">❯</button>
+                        </div>
+                        <div class="calendar-weeks">
+                            <span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span>
+                        </div>
+                        <div id="calendarDays" class="calendar-days">
+                            <!-- JSで生成 -->
+                        </div>
+                        <div class="calendar-footer">
+                            <button id="resetFilter" class="text-link">全件表示に戻す</button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card info-card">
+                        <h3>統計</h3>
+                        <div class="stat-item">
+                            <span>総アプリ数</span>
+                            <span id="totalCount" class="stat-value">0</span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+
+        <!-- モーダル: 新規追加/編集フォーム -->
+        <div id="modalOverlay" class="modal-overlay hidden">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2 id="modalTitle">新しいアプリを追加</h2>
+                    <button id="closeModal" class="close-btn">&times;</button>
+                </div>
+                <form id="appForm">
+                    <input type="hidden" id="editId">
+                    <div class="form-group">
+                        <label for="appName">アプリ名 <span class="required">*</span></label>
+                        <input type="text" id="appName" required placeholder="例: 薬確認アプリ">
+                    </div>
+                    <div class="form-group">
+                        <label for="appUrl">URL <span class="required">*</span></label>
+                        <input type="url" id="appUrl" required placeholder="https://example.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label for="appDesc">説明文</label>
+                        <textarea id="appDesc" rows="2" placeholder="アプリの概要を入力..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="appImage">スクリーンショット</label>
+                        <div class="image-upload-wrapper">
+                            <input type="file" id="appImage" accept="image/*">
+                            <div id="imagePreview" class="image-preview">
+                                <span>画像を選択してください</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="appDate">作成日</label>
+                            <input type="date" id="appDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="appTags">タグ (カンマ区切り)</label>
+                            <input type="text" id="appTags" placeholder="管理, 健康, 便利">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="appMemo">メモ</label>
+                        <textarea id="appMemo" rows="3" placeholder="工夫した点や今後の課題など..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancelBtn" class="secondary-btn">キャンセル</button>
+                        <button type="submit" class="primary-btn submit-btn">保存する</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 削除確認モーダル -->
+        <div id="deleteModal" class="modal-overlay hidden">
+            <div class="modal-card confirmation-card">
+                <h3>データを削除しますか？</h3>
+                <p>この操作は取り消せません。</p>
+                <div class="form-actions">
+                    <button id="closeDeleteModal" class="secondary-btn">キャンセル</button>
+                    <button id="confirmDelete" class="danger-btn">削除する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
