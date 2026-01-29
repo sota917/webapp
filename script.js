@@ -62,11 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateButtonState = () => {
         if (medicineData[todayStr]) {
             drinkButton.classList.add('taken');
-            buttonText.textContent = '今日の薬は飲みました！';
+            buttonText.textContent = '飲みました！';
             drinkButton.disabled = true;
         } else {
             drinkButton.classList.remove('taken');
-            buttonText.textContent = '飲んだ';
+            buttonText.textContent = '飲んでない';
             drinkButton.disabled = false;
         }
     };
